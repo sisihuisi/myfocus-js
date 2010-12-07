@@ -1,7 +1,7 @@
 /*=========mF_liuzg --绚丽切片风格========*/
-.mF_liuzg .pic li{position:relative;overflow:hidden;*margin-top:-2px;}
-.mF_liuzg .pic li p{width:100%;position:absolute;}
-.mF_liuzg .pic li p a{display:block;overflow:hidden;}
+.mF_liuzg .pic li{position:relative;overflow:hidden;float:left;}
+.mF_liuzg .pic li div{width:100%;position:absolute;}
+.mF_liuzg .pic li div a{display:block;overflow:hidden;}
 .mF_liuzg .txt li{position:absolute;z-index:2;bottom:0;height:36px;line-height:36px;display:none;}
 .mF_liuzg .txt li a{display:block;position:relative;z-index:1;color:#fff;padding-left:16px;font-size:14px;font-weight:bold;text-decoration:none;}/*标题样式*/
 .mF_liuzg .txt li span{display:block;height:100%;position:absolute;top:0;left:0;background:#000;filter:alpha(opacity=40);opacity:0.4;}/*标题背景*/
