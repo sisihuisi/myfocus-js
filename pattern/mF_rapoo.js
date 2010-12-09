@@ -29,6 +29,6 @@ myFocus.extend({//*********************雷柏风格******************
 		eval(this.turn('pre','nex'));
 	}
 });
-myFocus.setting.prototype.param('mF_rapoo',{//额外参数设置
+myFocus.set.params('mF_rapoo',{//额外参数设置
 	txtWidth:68//文字段宽度(像素)
 });

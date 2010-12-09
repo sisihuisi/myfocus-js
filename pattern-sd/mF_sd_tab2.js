@@ -9,7 +9,7 @@ myFocus.extend({//*********************tab2******************
 		dd.innerHTML=inlist.join('');this.wrapIn(dd,'in-ul');
 		//CSS
 		var ul=this.$c('in-ul',box),li=this.$li('in-ul',box);
-		var w=parseInt(this.style(dd,'width'))+2,h=parseInt(this.style(dd,'height'))+2,tH=parseInt(this.style(dt[0],'height'))+1;//加边框大小(上和下各1px)
+		var w=dd.offsetWidth+20,h=dd.offsetHeight,tH=dt[0].offsetHeight+1;//加边框大小(上和下各1px)
 		box.style.cssText='width:'+w+'px;height:'+(h+tH)+'px;';
 		ul.style.width=w*n+'px';
 		for(var i=0;i<n;i++){

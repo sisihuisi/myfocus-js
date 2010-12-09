@@ -35,7 +35,7 @@ myFocus.extend({
 		eval(this.bind('btn','par.trigger',par.delay));
 	}
 });
-myFocus.setting.prototype.param('mF_liuzg',{//额外参数设置
+myFocus.set.params('mF_liuzg',{//个性参数设置
 	chip:8,//图片切片数量，能被焦点图的高整除才有效，默认为8片
 	type:4////切片效果选择，1为甩头，2为甩尾，3为凌乱，4为随机效果
 });

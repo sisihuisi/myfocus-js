@@ -30,4 +30,4 @@ myFocus.extend({//*********************pithy******************
 		eval(this.turn('pre','nex'));
 	}
 });
-myFocus.setting.prototype.param('mF_pithy_tb',{less:true});
+myFocus.set.params('mF_pithy_tb',{less:true});
