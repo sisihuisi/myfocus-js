@@ -22,7 +22,7 @@ myFocus.extend({//*********************51xflash******************
 			myFocus.slide(pic[next],{right:disX,top:0,width:par.width,height:par.height},20);
 			txt[next].style.display='';
 		}))
-		eval(this.bind('pic','par.trigger',par.delay));
+		eval(this.bind('pic','"click"'));//让其只支持click
 		eval(this.toggle('btn','play','stop'));
 	}
 });

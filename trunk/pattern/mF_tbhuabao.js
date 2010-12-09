@@ -27,4 +27,4 @@ myFocus.extend({//*********************tbhuabao******************
 		eval(this.turn('pre','nex'));
 	}
 });
-myFocus.setting.prototype.param('mF_tbhuabao',{less:true});//支持无缝设置
+myFocus.set.params('mF_tbhuabao',{less:true});//支持无缝设置

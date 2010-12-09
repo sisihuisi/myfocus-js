@@ -19,4 +19,4 @@ myFocus.extend({//*********************太平洋电脑网风格*****************
 		eval(this.bind('num','par.trigger',par.delay));
 	}
 });
-myFocus.setting.prototype.param('mF_pconline',{speed:20});
+myFocus.set.params('mF_pconline',{speed:20});

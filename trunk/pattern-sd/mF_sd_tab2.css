@@ -1,5 +1,5 @@
 /*=========mF_sd_tab2========*/
-.mF_sd_tab2{position:relative;width:382px;font:12px/20px Verdana, Geneva, sans-serif;}/*tab盒子*/
+.mF_sd_tab2{position:relative;width:382px;height:230px;font:12px/20px Verdana, Geneva, sans-serif;}/*tab盒子*/
 .mF_sd_tab2 dl{float:left;margin-left:10px;display:inline;}/*标题之间的间隔*/
 .mF_sd_tab2 dl dt{float:left;padding:0 20px;height:28px;line-height:28px;border:1px solid #ccc;border-bottom:0;position:relative;cursor:pointer;background:#eee;}/*标题区*/
 .mF_sd_tab2 dl.current dt{height:29px;background:#fff;position:relative;z-index:1;}/*当前标题区*/

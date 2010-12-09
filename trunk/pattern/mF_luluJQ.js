@@ -26,7 +26,7 @@ myFocus.extend({//*********************luluJQ******************
 		eval(this.bind('pic','par.trigger',par.delay));
 	}
 });
-myFocus.setting.prototype.param('mF_luluJQ',{//额外参数设置
+myFocus.set.params('mF_luluJQ',{//额外参数设置
 	pad:68,//图片留边宽度
 	gray:false//非当前图片是否变灰,如果要变灰,请先准备图片灰色的副本并命名为："原来图片的名字-2.jpg"
 });
