@@ -10,13 +10,12 @@ myFocus.extend({//*********************2010世博******************
 			txt[i].style.bottom=-H+'px';
 		}
 		//PLAY
-		eval(this.switchMF(function(){
-			myFocus.fadeOut(pic[index]);
-			myFocus.slide(txt[index],{bottom:-H},10,'easeIn');
+		eval(this.switchMF(function(mf){
+			mf.fadeOut(pic[index]);
 			num[index].className='';
-		},function(){
-			myFocus.fadeIn(pic[next]);
-			myFocus.slide(txt[next],{bottom:0},40,'easeOut');
+		},function(mf){
+			mf.fadeIn(pic[next]);
+			mf.slide(txt[prev],{bottom:-H},5,'easeIn',function(){mf.slide(txt[next],{bottom:0},40,'easeInOut')});
 			num[next].className='current';
 		}))
 		eval(this.bind('num','par.trigger',par.delay));
