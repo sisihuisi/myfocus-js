@@ -1,14 +1,14 @@
 myFocus.extend({//*********************tqq******************
-	mF_sd_tqq:function(par){
-		var box=this.$(par.id),msgs=this.$c('msgs',box),n=this.$$_('li',msgs).length;
+	mF_sd_tqq:function(par,F){
+		var box=F.$(par.id),msgs=F.$c('msgs',box),n=F.$$_('li',msgs).length;
 		//PLAY
-		eval(this.switchMF(function(mf){
-			var last=mf.$$_('li',msgs)[n-1],lastH=last.offsetHeight;
-			mf.slide(msgs,{marginTop:lastH},50,'easeOut',function(){
+		eval(F.switchMF(function(){
+			var last=F.$$_('li',msgs)[n-1],lastH=last.offsetHeight;
+			F.slide(msgs,{marginTop:lastH},800,'easeOut',function(){
 				msgs.insertBefore(last,msgs.firstChild);
-				mf.opacity(last,0);
+				F.setOpa(last,0);
 				msgs.style.marginTop=0+'px';
-				mf.fadeIn(last);
+				F.fadeIn(last);
 			});
 		}));
 	}

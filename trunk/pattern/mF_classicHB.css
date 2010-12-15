@@ -6,7 +6,7 @@
 .mF_classicHB .pic li img{width:100%;height:100%;}
 .mF_classicHB .txt li{position:absolute;left:0;top:0;overflow:hidden;height:20px;line-height:20px;}
 .mF_classicHB .txt li a{display:block;position:relative;z-index:1;color:#fff;text-align:center;font-size:12px;text-decoration:none;}/*文字样式*/
-.mF_classicHB .txt li span{display:block;height:100%;position:absolute;top:0;left:0;background:#000;filter:alpha(opacity=50);opacity:0.5;}
+.mF_classicHB .txt li span{display:block;height:100%;position:absolute;top:0;left:0;background:#000;filter:alpha(opacity=40);opacity:0.4;}
 .mF_classicHB .num{height:17px;position:absolute;z-index:3;right:0;bottom:2px;color:#fff;}
 .mF_classicHB .num li{float:left;margin-right:2px;width:16px;height:17px;text-align:center;position:relative;}
 .mF_classicHB .num li a{display:block;position:relative;z-index:1;line-height:16px;font-size:10px;color:#fff;text-decoration:none;cursor:pointer;}/*按钮样式*/
