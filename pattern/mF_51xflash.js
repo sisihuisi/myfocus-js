@@ -1,8 +1,8 @@
 myFocus.extend({//*********************51xflash******************
-	mF_51xflash:function(par){
-		var box=this.$(par.id);
-		this.addList(box,['txt','play']);this.wrap([this.$c('pic',box)],'cont')
-		var cont=this.$c('cont',box),pics=this.$c('pic',cont),pic=this.$li('pic',cont),txt=this.$li('txt',box),btn=this.$c('play',box);
+	mF_51xflash:function(par,F){
+		var box=F.$(par.id);
+		F.addList(box,['txt','play']);F.wrap([F.$c('pic',box)],'cont')
+		var cont=F.$c('cont',box),pics=F.$c('pic',cont),pic=F.$li('pic',cont),txt=F.$li('txt',box),btn=F.$c('play',box);
 		var n=pic.length;//运行时相关参数
 		//CSS
 		var pad=4,w=(par.width/3),h=(par.height-pad*2)/3,disX=w+pad,disY=h+pad,txtH=isNaN(par.txtHeight/1)?34:par.txtHeight;
@@ -13,16 +13,15 @@ myFocus.extend({//*********************51xflash******************
 			pic[i].style.cssText='width:'+w+'px;height:'+h+'px;top:'+disY*(i-1)+'px;';
 		}
 		//PLAY
-		eval(this.switchMF(function(){
+		eval(F.switchMF(function(){
 			txt[index].style.display='none';
 		},function(){
-			if(index==-1) {index=n-1;next=0};//index和next一起运行时的特殊情况
-			pic[index].style.zIndex=2;pic[next].style.zIndex=1;
-			myFocus.slide(pic[index],{right:0,top:parseInt(pic[next].style.top),width:w,height:h},20,'easeOut',function(){this.style.zIndex=''});
-			myFocus.slide(pic[next],{right:disX,top:0,width:par.width,height:par.height},20);
+			pic[prev].style.zIndex=2,pic[next].style.zIndex=1;
+			F.slide(pic[prev],{right:0,top:parseInt(pic[next].style.top),width:w,height:h},400,'easeOut',function(){this.style.zIndex=''});
+			F.slide(pic[next],{right:disX,top:0,width:par.width,height:par.height},400);
 			txt[next].style.display='';
 		}))
-		eval(this.bind('pic','"click"'));//让其只支持click
-		eval(this.toggle('btn','play','stop'));
+		eval(F.bind('pic','"click"'));
+		eval(F.toggle('btn','play','stop'));
 	}
 });
