@@ -1,4 +1,4 @@
-myFocus.extend({//*********************mF_slide3D******************
+myFocus__AGENT__.extend({//*********************mF_slide3D******************
 	mF_slide3D:function(par,F){
 		var box=F.$(par.id);
 		F.addList(box,['mask11','mask12','mask21','mask22','num','next']);
