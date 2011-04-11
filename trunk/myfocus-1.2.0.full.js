@@ -20,7 +20,7 @@
 			waiting:20,
 			delay:100,
 			css:true,
-			path:'http://www.cosmissy.com/myfocus/js/pattern/'
+			path:'http://myfocus-js.googlecode.com/svn/trunk/pattern/'
 		},
 		pattern:{},
 		extend:function(){
