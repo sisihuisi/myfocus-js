@@ -9,18 +9,18 @@
 */
 (function(){
 	var mF={
-		defConfig:{//默认设置
-			pattern:'mF_fscreen_tb',
-			trigger:'click',
-			txtHeight:'default',
-			wrap:true,
-			auto:true,
-			time:4,
-			index:0,
-			waiting:20,
-			delay:100,
-			css:true,
-			path:'http://myfocus-js.googlecode.com/svn/trunk/pattern/'
+		defConfig:{//全局默认设置
+			pattern:'mF_fscreen_tb',//风格样式
+			trigger:'click',//触发切换模式['click'(鼠标点击)|'mouseover'(鼠标悬停)]
+			txtHeight:'default',//文字层高度设置['default'(默认高度)|0(隐藏)|num(数字,单位像素)]
+			wrap:true,//是否保留边框(有的话)[true|false]
+			auto:true,//是否自动播放[true|false]
+			time:4,//每次停留时间[num(数字,单位秒)]
+			index:0,//开始显示的图片序号(从0算起)[num(数字)]
+			waiting:20,//Loading画面的最长等待时间[num(数字,单位秒)]
+			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
+			css:true,//是否允许程序定义CSS[true|false]
+			path:'http://www.cosmissy.com/myfocus/js/pattern/'//pattern文件的路径
 		},
 		pattern:{},
 		extend:function(){
