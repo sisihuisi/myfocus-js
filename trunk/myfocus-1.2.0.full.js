@@ -97,11 +97,12 @@
 			p.pattern=p.pattern||F.defConfig.pattern,p.path=p.path||F.defConfig.path,p.S=p.pattern+'-'+p.id;
 			function show(){if(cont==2) F.pattern[p.pattern].call(F,p,F),callback&&callback()};//仅当JS和图片都加载完毕(cont=2)才开始轮播
 			function ready(){//当DOM就绪时
-				var box=F.$(p.id),testId=box.id;//取值以测试DOM是否加载
+				var box=F.$(p.id);
+				box.style.height=314+'px';//测试DOM加载&&赋值防变形
 				F.loadPattern(p.pattern,p.path,function(){
 					F.extend(p,F.pattern[p.pattern].cfg,F.defConfig);//收集完整参数
 					p.width=p.width||F.style(box,'width'),p.height=p.height||F.style(box,'height');
-					F.initCSS(p),box.className+=' '+p.pattern+' '+p.S;
+					F.initCSS(p),box.className+=' '+p.pattern+' '+p.S,box.style.height='';
 					cont+=1,show();
 				});
 				F.onloadIMG(box,p.waiting,function(){cont+=1,show();});
