@@ -157,10 +157,10 @@
 			css.rel = "stylesheet",css.href=href;
 			this.$$('head')[0].appendChild(css);
 			this.$$('head')[0].appendChild(js);
-			if(this.isIE) js.onreadystatechange=function(){
-				if(js.readyState=="loaded" || js.readyState=="complete") callback();
-			} 
-			else js.onload=function(){callback();}
+			if(this.isIE) {
+				js.onreadystatechange=function(){if(js.readyState=="loaded" || js.readyState=="complete") callback();}
+			}
+			else{js.onload=function(){callback();}}
 			js.onerror=function(){alert('Not Found (404): '+src)}//chrome
 		},
 		addEvent:function(obj,type,fn){var b=this.isIE,e=b?'attachEvent':'addEventListener',t=(b?'on':'')+type;obj[e](t,fn,false);}
