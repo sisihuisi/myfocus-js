@@ -16,9 +16,11 @@ myFocus.extend({//*********************fscreen******************
 		pre.style.cssText=nex.style.cssText='height:'+(sh-16)+'px;line-height:'+(sh-20)+'px;';//-padding
 		//PLAY
 		eval(F.switchMF(function(){
-			F.stop(txt[index]);
+			for(var i=0;i<n;i++){
+				F.stop(txt[i]);
+				txt[i].style.left=-par.width+'px';
+			}
 			pic[index].style.display='none';
-			txt[index].style.left=-par.width+'px';
 			thu[index].className = '';
 		},function(){
 			F.fadeIn(pic[next],300,function(){F.slide(txt[next],{left:0})});
