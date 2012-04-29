@@ -1,11 +1,11 @@
 /*
 * myFocus JavaScript Library v2.0.0 beta
-* Open source under the BSD & GPL License.
+* Open source under the BSD & GPL License
 * 
-* @Author  koen_lee@qq.com
-* @Blog    http://cosmissy.com/blog/
+* Copyright 2012, Koen Lee
+* http://cosmissy.com/
 * 
-* @Date    2012/04/28
+* Date: 2012/04/28
 */
 (function(){
 	var Base={
