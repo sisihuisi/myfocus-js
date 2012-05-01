@@ -154,6 +154,12 @@
 		remove:function(){
 			var o=this[0];
 			if(o) o.parentNode.removeChild(o);
+		},
+		repeat:function(n){
+			var n=n||2,pNode=this[0].parentNode,html=pNode.innerHTML,s=[];
+			for(var i=0;i<n;i++) s.push(html);
+			pNode.innerHTML=s.join('');
+			return myFocus(pNode).find(this[0].nodeName);
 		}
 	};
 	Base.fn.__CSS__={
