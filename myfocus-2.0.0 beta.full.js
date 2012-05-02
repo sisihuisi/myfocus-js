@@ -165,6 +165,7 @@
 	Base.fn.__CSS__={
 		css:function(css){//可获值或设值
 			var o=this[0],value,arr=[';'],isIE=myFocus.isIE;
+			if(!o) return this;
 			if(typeof css==='string'){//获得css属性值,返回值不带单位
 				if(css==='float') css=isIE?'styleFloat':'cssFloat';
 				if(!(value=o.style[css])) value=(isIE?o.currentStyle:getComputedStyle(o,''))[css];

@@ -12,17 +12,26 @@ myFocus.pattern.extend({//*********************百叶窗******************
 		});
 		//PLAY
 		//var dur=300;
-		
+		//var $list=$focus.find('.pic li');
 		$focus.play(function(i){
 			//for(var j=0;j<c;j++) $picListArr[j].eq(i).delay((j+1)*100).fadeOut();
-			for(var j=0;j<c;j++) timeoutFx($picListArr[j].eq(i),'fadeOut',(j+1)*100);
-		},function(i){
+			//for(var j=0;j<c;j++) timeoutFx($picListArr[j].eq(i),'fadeOut',(j+1)*100);
+			//$list.each(function(){this.style.display='none'});
+		},function(i,n,l){
 			//for(var j=0;j<c;j++) $picListArr[j].eq(i).delay((j+1)*100).fadeIn();
-			for(var j=0;j<c;j++) timeoutFx($picListArr[j].eq(i),'fadeIn',(j+1)*100);
+			for(var j=0;j<c;j++){
+				
+				$picListArr[j].eq(i)[0].cssText='z-index:99';
+				//$picListArr[j].eq(i)[0].style.zIndex=99;
+				timeoutFx($picListArr[j].eq(i),$picListArr[j].eq(l),'fadeIn',(j+1)*100);
+			}
 		});
-		function timeoutFx(o,type,t){
+		function timeoutFx(o1,o2,type,t){
 			setTimeout(function(){
-				o[type]();
+				o1[type](function(){
+					o1[0].style.zIndex=98;
+					o2[0].style.zIndex='';
+				});
 			},t);
 		}
 		//Control
