@@ -3,7 +3,8 @@ myFocus.pattern.extend({//*********************百叶窗******************
 		var c=Math.floor(settings.width/50);
 		var $focus=$(settings);
 		var $picUls=$focus.find('.pic ul').repeat(c);
-		var $picListArr=[];		
+		var $txtList=$focus.addListTxt().find('li');
+		var $picListArr=[];
 		//CSS
 		var w=settings.width/c;
 		$picUls.each(function(i){
@@ -14,11 +15,13 @@ myFocus.pattern.extend({//*********************百叶窗******************
 		//var dur=300;
 		//var $list=$focus.find('.pic li');
 		$focus.play(function(i){
+			$txtList[i].className='';
 			//for(var j=0;j<c;j++) $picListArr[j].eq(i).delay((j+1)*100).fadeOut();
 			//for(var j=0;j<c;j++) timeoutFx($picListArr[j].eq(i),'fadeOut',(j+1)*100);
 			//$list.each(function(){this.style.display='none'});
 		},function(i){
 			//for(var j=0;j<c;j++) $picListArr[j].eq(i).delay((j+1)*100).fadeIn();
+			$txtList[i].className='current';
 			for(var j=0;j<c;j++){
 				
 				//$picListArr[j].eq(i)[0].style.zIndex=99;
