@@ -419,9 +419,13 @@
 			var F=this;
 			if(p.__runNow){fn();return;}
 			(function(){
-				var e=$id(p.id);
-				if(!e){if(!F.onloadWindow) setTimeout(arguments.callee,0);}
-				else fn();
+				try{
+					if(F.isIE) $id(p.id).doScroll();
+					else $id(p.id).innerHTML;
+					fn();
+				}catch(e){
+					if(!F.onloadWindow) setTimeout(arguments.callee,0);
+				}
 			})();
 		},
 		getIMGReady:function(p,callback){

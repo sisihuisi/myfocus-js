@@ -2,8 +2,11 @@ myFocus.pattern.extend({//*********************百叶窗******************
 	'mF_shutters':function(settings,$){
 		var c=Math.floor(settings.width/50);
 		var $focus=$(settings);
-		var $picUls=$focus.find('.pic ul').repeat(c);
 		var $txtList=$focus.addListTxt().find('li');
+		var $picUls=$focus.find('.pic ul').repeat(c);
+		
+		var $prevBtn=$focus.addHtml('<div class="prev"><a href="javascript:;">PREV</a></div>');
+		var $nextBtn=$focus.addHtml('<div class="next"><a href="javascript:;">NEXT</a></div>');
 		var $picListArr=[];
 		//CSS
 		var w=settings.width/c;
@@ -37,6 +40,10 @@ myFocus.pattern.extend({//*********************百叶窗******************
 			},t);
 		}
 		//Control
+		$prevBtn.bind('click',function(){$focus.run('-=1')});
+		$nextBtn.bind('click',function(){$focus.run('+=1')});
+		$focus.bind('mouseover',function(){$prevBtn[0].style.display=$nextBtn[0].style.display='block'});
+		$focus.bind('mouseout',function(){$prevBtn[0].style.display=$nextBtn[0].style.display='none'});
 		//$focus.bindControl($numList,settings.trigger,settings.delay);
 	}
 });
