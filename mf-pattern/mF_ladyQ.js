@@ -13,14 +13,15 @@ myFocus.pattern.extend({//*********************ladyQ******************
 		//PLAY
 		var over=false,start=true,t=settings.time*1000;
 		$focus.play(function(i){
-			$picList[i].style.zIndex=1;
-			if(!start) $picList.eq(i).fadeOut(600,'easeOut',function(){this.index=''});
 			$txtList[i].style.display='none';
 			$numList[i].className='';
 			if(settings.timeBar) $bar.stop()[0].style.width=barW+'px';
 			if(settings.timeBar&&!over) $bar.slide({width:0},t,'linear');
 		},function(i){
-			$picList.eq(i).fadeIn(600,'easeInOut');
+			$picList.eq(i).css({zIndex:1}).fadeIn(600,'easeInOut',function(){
+				$picList.each(function(){this.style.display='none'});
+				this.style.cssText='z-index:"";display:block';
+			});
 			$txtList[i].style.display='block';
 			$numList[i].className='current',start=false;
 		});
