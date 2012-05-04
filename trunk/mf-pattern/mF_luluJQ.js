@@ -30,7 +30,7 @@ myFocus.pattern.extend({//*********************luluJQ******************
 			if(settings.grayChange) $.alterSRC($picList[i],sFix,true);
 		});
 		//Control
-		$focus.bindControl($picList,settings.trigger,settings.delay);
+		$focus.bindControl($picList);
 	}
 });
 myFocus.defConfig.extend({//可选个性参数

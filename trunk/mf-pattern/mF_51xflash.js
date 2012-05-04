@@ -28,7 +28,8 @@
 			$txtList[next].style.display='';
 		});
 		//Control
-		$focus.bindControl($picList,'click');//click only
+		settings.trigger='click';//click only
+		$focus.bindControl($picList);
 		//Toggle Play
 		$playBtn.bind('click',function(){
 			if($focus.isStop){//to play

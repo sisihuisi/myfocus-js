@@ -308,10 +308,10 @@
 				this.onfocus=function(){this.blur();}
 			});
 		},
-		bindControl:function($btnList,opt){//opt={type,delay,showNum,isRunning}
-			var this_=this,p=this_.settings,type=opt.type||p.trigger,delay=opt.delay||p.delay;
+		bindControl:function($btnList,params){//params={thumbShowNum:'略缩图显示数目(如果有)',isRunning:'运行中的标记(当需要判断时)'}
+			var this_=this,p=this_.settings,type=p.trigger,delay=p.delay,par=params||{},tsNum=par.thumbShowNum||p.thumbShowNum;
 			var run=function(){
-				if(this.index!==this_.runIndex&&!opt.isRunning){
+				if(this.index!==this_.runIndex&&!par.isRunning){
 					this_.run(this.index);
 					return false;//阻止冒泡&默认事件
 				}
@@ -337,13 +337,13 @@
 					return false;
 				};
 			});
-			if(opt.showNum){//thumb
+			if(tsNum){//thumb
 				var float=$btnList.css('float'),isLevel=float==='left'||float==='right';
 				$btnList.dir=isLevel?'left':'top';//方向
 				$btnList.n=this_.HTMLUListLength;//总数
-				$btnList.showNum=opt.showNum;//显示数目
+				$btnList.showNum=tsNum;//显示数目
 				$btnList.showStart=p.index;//显示的开始索引
-				$btnList.showEnd=$btnList.showStart+opt.showNum-1;//显示的结尾索引
+				$btnList.showEnd=$btnList.showStart+tsNum-1;//显示的结尾索引
 				$btnList.distance=$btnList.css(isLevel?'width':'height');//运动距离
 				$btnList.slideBody=$btnList.parent();//运动对象(ul)
 			}
