@@ -17,7 +17,7 @@
 			auto:true,//是否自动播放(切换)[true|false]
 			time:4,//每次停留时间[num(数字,单位秒)]
 			index:0,//开始显示的图片序号(从0算起)[num(数字)]
-			loadIMGTimeout:5,//载入图片的最长等待时间(Loading画面时间)[num(数字,单位秒,0表示不等待直接播放)]
+			loadIMGTimeout:3,//载入图片的最长等待时间(Loading画面时间)[num(数字,单位秒,0表示不等待直接播放)]
 			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
 			autoZoom:false,//是否允许图片自动缩放居中[true|false]
 			__focusConstr__:true//程序构造参数
