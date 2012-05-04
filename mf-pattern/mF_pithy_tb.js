@@ -38,7 +38,8 @@ myFocus.pattern.extend({//*********************pithy******************
 			$thumbList.scrollTo(index)[index].className = 'current';
 		},p.seamless);
 		//Control
-		$focus.bindControl($thumbList,'click',p.delay,p.thumbShowNum);//trigger限定为click
+		p.trigger='click';//trigger限定为click
+		$focus.bindControl($thumbList);
 		//Prev & Next
 		$prevBtn2.bind('click',function(){$focus.run('-=1')});
 		$nextBtn2.bind('click',function(){$focus.run('+=1')});

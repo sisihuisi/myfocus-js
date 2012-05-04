@@ -35,7 +35,8 @@ myFocus.pattern.extend({//*********************雷柏风格******************
 			if(next<n-1) $numList.eq(next+1).slide({marginLeft:txtW+12},400,'easeInOut');
 		});
 		//Control
-		$focus.bindControl($numList,'click');//让其只支持click点击
+		settings.trigger='click';//固定trigger类型为‘click’
+		$focus.bindControl($numList);
 		//Prev & Next
 		$prevBtn.bind('click',function(){$focus.run('-=1')});
 		$nextBtn.bind('click',function(){$focus.run('+=1')});

@@ -30,7 +30,8 @@
 			$thumbList.scrollTo(i);
 		});
 		//Control
-		$focus.bindControl($thumbList,'click',null,showNum);//让其仅支持'click'点击
+		p.trigger='click';//让其仅支持'click'点击
+		$focus.bindControl($thumbList);
 		//Prev & Next
 		$prevBtn.bind('click',function(){$focus.run('-=1')});
 		$nextBtn.bind('click',function(){$focus.run('+=1')});

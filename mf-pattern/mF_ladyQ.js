@@ -11,22 +11,24 @@ myFocus.pattern.extend({//*********************ladyQ******************
 		$bar[0].style.cssText='top:'+(settings.height+4)+'px;width:'+barW+'px;'+(settings.timeBar?'':'display:none');
 		for(var i=0;i<n;i++) $txtList[i].style.bottom=numH-1+'px';
 		//PLAY
-		var over=false,start=true,t=settings.time*1000;
+		var over=false,start=true,t=settings.time*1000,params={isRunning:false};
 		$focus.play(function(i){
-			$txtList[i].style.display='none';
+			params.isRunning=true;
+			$txtList[i].className='';
 			$numList[i].className='';
 			if(settings.timeBar) $bar.stop()[0].style.width=barW+'px';
 			if(settings.timeBar&&!over) $bar.slide({width:0},t,'linear');
 		},function(i){
-			$picList.eq(i).css({zIndex:1}).fadeIn(600,'easeInOut',function(){
+			$picList.eq(i).css({zIndex:1}).fadeIn(600,'swing',function(){
 				$picList.each(function(){this.style.display='none'});
 				this.style.cssText='z-index:"";display:block';
+				params.isRunning=false;
 			});
-			$txtList[i].style.display='block';
+			$txtList[i].className='current';
 			$numList[i].className='current',start=false;
 		});
 		//Control
-		$focus.bindControl($numList);
+		$focus.bindControl($numList,params);
 		//Stop time bar event
 		if(settings.timeBar){
 			$focus.bind('mouseover',function(){$bar.stop()[0].style.width=barW+'px',over=true;});
@@ -36,5 +38,5 @@ myFocus.pattern.extend({//*********************ladyQ******************
 });
 myFocus.defConfig.extend({
 	txtHeight:58,//默认标题高度
-	timeBar:true//是否有时间条[true(有)|false(无)]
+	timeBar:false//是否有时间条[true(有)|false(无)]
 });

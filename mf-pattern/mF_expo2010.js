@@ -23,7 +23,8 @@
 			$numList[next].className='current';
 		});
 		//Control
-		$focus.bindControl($numList,settings.trigger,200);//固定其延迟
+		settings.delay=200;//固定其延迟
+		$focus.bindControl($numList);
 	}
 });
 myFocus.defConfig.extend({txtHeight:36});//默认文字层高度

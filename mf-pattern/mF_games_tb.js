@@ -28,7 +28,8 @@ myFocus.pattern.extend({//*********************games******************
 			$thumbList.scrollTo(i)[i].className = 'current';
 		});
 		//Control
-		$focus.bindControl($thumbList,'click',null,showNum);
+		p.trigger='click';//让其仅支持'click'点击
+		$focus.bindControl($thumbList);
 		//Prev & Next
 		$prevBtn.bind('click',function(){$focus.run('-=1')});
 		$nextBtn.bind('click',function(){$focus.run('+=1')});
