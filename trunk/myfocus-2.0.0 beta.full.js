@@ -308,10 +308,10 @@
 				this.onfocus=function(){this.blur();}
 			});
 		},
-		bindControl:function($btnList,type,delay,showNum){
-			var this_=this,p=this_.settings,type=type||p.trigger,delay=delay||p.delay;
+		bindControl:function($btnList,opt){//opt={type,delay,showNum,isRunning}
+			var this_=this,p=this_.settings,type=opt.type||p.trigger,delay=opt.delay||p.delay;
 			var run=function(){
-				if(this.index!==this_.runIndex){
+				if(this.index!==this_.runIndex&&!opt.isRunning){
 					this_.run(this.index);
 					return false;//阻止冒泡&默认事件
 				}
@@ -337,13 +337,13 @@
 					return false;
 				};
 			});
-			if(showNum){//thumb
+			if(opt.showNum){//thumb
 				var float=$btnList.css('float'),isLevel=float==='left'||float==='right';
 				$btnList.dir=isLevel?'left':'top';//方向
 				$btnList.n=this_.HTMLUListLength;//总数
-				$btnList.showNum=showNum;//显示数目
+				$btnList.showNum=opt.showNum;//显示数目
 				$btnList.showStart=p.index;//显示的开始索引
-				$btnList.showEnd=$btnList.showStart+showNum-1;//显示的结尾索引
+				$btnList.showEnd=$btnList.showStart+opt.showNum-1;//显示的结尾索引
 				$btnList.distance=$btnList.css(isLevel?'width':'height');//运动距离
 				$btnList.slideBody=$btnList.parent();//运动对象(ul)
 			}
