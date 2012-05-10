@@ -1,14 +1,14 @@
 /*
-* myFocus JavaScript Library v2.0.0 beta
+* myFocus JavaScript Library v2.0.0
 * Open source under the BSD & GPL License
 * 
 * Copyright 2012, Koen Lee
 * http://cosmissy.com/
 * 
-* Date: 2012/04/28
+* Date: 2012/05/10
 */
 (function(){
-	//获取DOM基础函数
+	//DOM基础操作函数
 	var $id=function(id){
 			return typeof id==='string'?document.getElementById(id):id;
 		},
@@ -19,9 +19,9 @@
 			return $getChild(tag,parentNode,'tag');
 		},
 		$class=function(className,parentNode){
-			var doms=$tag('*',parentNode),className=className.replace(/\-/g,'\\-'),reg=new RegExp('(^|\\s)'+className+'(\\s|$)'),arr=[];
+			var doms=$tag('*',parentNode),arr=[];
 			for(var i=0,l=doms.length;i<l;i++){
-				if(reg.test(doms[i].className)){
+				if(hasClass(className,doms[i])){
 					arr.push(doms[i]);
 				}
 			}
@@ -37,12 +37,16 @@
 				i+=fn(selector,doms[i]).length;
 			}
 			return arr;
+		},
+		hasClass=function(className,node){
+			return eval('/(^|\\s)'+className+'(\\s|$)/').test(node.className);
 		};
-	//
+	//定义myFocus全局变量
 	myFocus=function(settings){
 		return new myFocus.constr(settings);
 	};
-	myFocus.extend=function(){//扩展
+	//扩展
+	myFocus.extend=function(){
 		var arg=arguments,len=arg.length;
 		if(this===myFocus){//作为方法扩展，如果只有一个参数扩展本身
 			if(len===1) dest=myFocus,i=0;//扩展myFocus类
@@ -59,7 +63,7 @@
 	};
 	myFocus.extend({
 		defConfig:{//全局默认设置
-			pattern:'mF_fscreen_tb',//风格样式
+			pattern:'mF_fancy',//风格样式
 			trigger:'click',//触发切换模式['click'(鼠标点击)|'mouseover'(鼠标悬停)]
 			txtHeight:'default',//文字层高度设置[num(数字,单位像素,0表示隐藏文字层,省略设置即为默认高度)]
 			wrap:true,//是否保留边框(有的话)[true|false]
@@ -68,7 +72,7 @@
 			index:0,//开始显示的图片序号(从0算起)[num(数字)]
 			loadIMGTimeout:3,//载入图片的最长等待时间(Loading画面时间)[num(数字,单位秒,0表示不等待直接播放)]
 			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
-			autoZoom:false,//是否允许图片自动缩放居中[true|false]
+			//autoZoom:false,//是否允许图片自动缩放居中[true|false]
 			__focusConstr__:true//程序构造参数
 		},
 		constr:function(settings){//构造函数
@@ -94,6 +98,7 @@
 		pattern:{}//风格集
 	});
 	myFocus.constr.prototype=myFocus.fn;
+	myFocus.fn.extend=myFocus.pattern.extend=myFocus.defConfig.extend=myFocus.extend;
 	myFocus.fn.extend({//DOM
 		find:function(selector){//选择器只应用基本查找,暂不考虑用querySelectorAll
 			var parent=this,isChild=false,$=myFocus;
@@ -123,7 +128,7 @@
 						$(parent).each(function(){
 							var arr=fn(tag,this);
 							for(var i=0,len=arr.length;i<len;i++){
-								if(cls&&!eval('/(^|\\s)'+cls+'(\\s|$)/').test(arr[i].className)) continue;
+								if(cls&&!hasClass(cls,arr[i])) continue;
 								dom.push(arr[i]);
 							}
 						});
@@ -250,7 +255,7 @@
 		},
 		cssNumber:{fillOpacity:true,fontWeight:true,lineHeight:true,opacity:true,orphans:true,widows:true,zIndex:true,zoom:true}//不加px的css,参考jQuery
 	});
-	myFocus.fn.extend({//ANIMATE
+	myFocus.fn.extend({//Animate
 		animate:function(attr,value,time,type,funcBefore,funcAfter){//value支持相对增值'+=100',相对减值'-=100'形式
 			var $o=this,o=$o[0],isOpacity=attr==='opacity',diffValue=false;
 			funcBefore&&funcBefore.call(o);
@@ -316,7 +321,7 @@
 			easeInOut:function(t,b,c,d){return ((t/=d/2) < 1)?(c/2*t*t*t*t + b):(-c/2*((t-=2)*t*t*t - 2) + b);}
 		}
 	});
-	myFocus.fn.extend({//method
+	myFocus.fn.extend({//Method(fn)
 		bind:function(type,fn){
 			myFocus.addEvent(this[0],type,fn);
 			return this;
@@ -413,12 +418,10 @@
 			return this;
 		}
 	});
-	myFocus.extend({//init
-		set:function(p,runNow,callback){//runNow是针对DOM加载而言,默认false
+	myFocus.extend({//Init
+		set:function(p,callback){
 			var F=this,id=p.id,oStyle=F.initBaseCSS(id);
-			if(typeof runNow!=='boolean') callback=runNow,runNow=false;
 			p.pattern=p.pattern||F.defConfig.pattern;
-			p.__runNow=runNow;
 			p.__clsName=p.pattern+'_'+id;
 			F.addEvent(window,'load',function(){F.onloadWindow=true});
 			F.loadPattern(p,function(){
@@ -455,10 +458,9 @@
 		getFilePath:function(){
 			var path = '';
 			var scripts = $tag("script");
-			var reg = /myfocus-.*?\.js/i;
 			for(var i = 0 , len = scripts.length ; i <len ; i++){
 				var src = scripts[i].src;
-				if(src && reg.test(src)){
+				if(src && /myfocus-.*?\.js/i.test(src)){
 					path = src;
 					break;
 				}
@@ -467,7 +469,6 @@
 		},
 		getBoxReady:function(p,fn){
 			var F=this;
-			if(p.__runNow){fn();return;}
 			(function(){
 				try{
 					if(F.isIE) $id(p.id).doScroll();
@@ -498,7 +499,7 @@
 			var css=[],w=p.width||'',h=p.height||'';
 			if(p.wrap) $o.wrap('<div class="'+p.pattern+'_wrap"></div>');
 			css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .loading{position:absolute;z-index:9999;width:100%;height:100%;color:#666;text-align:center;padding-top:'+0.26*h+'px;background:#fff;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
-			if(p.autoZoom) css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
+			//if(p.autoZoom) css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
 			try{oStyle.styleSheet.cssText=css.join('')}catch(e){oStyle.innerHTML=css.join('')}
 		},
 		initBaseCSS:function(id){
@@ -517,13 +518,23 @@
 			}
 		}
 	});
-	myFocus.extend({//
+	myFocus.extend({//Method(myFocus)
 		isIE:!!(document.all&&navigator.userAgent.indexOf('Opera')===-1),//!(+[1,]) BUG IN IE9+?
-		alterSRC:function(o,suffix,del){
+		addEvent:function(o,type,fn){
+			var ie=this.isIE,e=ie?'attachEvent':'addEventListener',t=(ie?'on':'')+type;
+			o[e](t,function(e){
+				var e=e||window.event,flag=fn.call(o,e);
+				if(flag===false){
+					if(ie) e.cancelBubble=true,e.returnValue=false;
+					else e.stopPropagation(),e.preventDefault();
+				}
+			},false);
+		}
+		/*alterSRC:function(o,suffix,del){
 			var img=$tag('img',o)[0];
 			img.src=del?img.src.replace(eval("/"+suffix+"\\.(?=[^\\.]+$)/g"),'.'):img.src.replace(/\.(?=[^\.]+$)/g,suffix+'.');
-		},
-		/*fixIMG:function(box,boxWidth,boxHeight){
+		}
+		fixIMG:function(box,boxWidth,boxHeight){
 			var imgs=this.$$('img',box),len=imgs.length,IMG = new Image();
 			for(var i=0;i<len;i++){
 				IMG.src = imgs[i].src;
@@ -535,27 +546,15 @@
 				}
 			};
 		},*/
-		addEvent:function(o,type,fn){
-			var ie=this.isIE,e=ie?'attachEvent':'addEventListener',t=(ie?'on':'')+type;
-			o[e](t,function(e){
-				var e=e||window.event,flag=fn.call(o,e);
-				if(flag===false){
-					if(ie) e.cancelBubble=true,e.returnValue=false;
-					else e.stopPropagation(),e.preventDefault();
-				}
-			},false);
-		}
 	});
-	//扩展方法继承
-	myFocus.fn.extend=myFocus.pattern.extend=myFocus.defConfig.extend=myFocus.extend;
 	//支持JQ
 	if(typeof jQuery!=='undefined'){
 		jQuery.fn.extend({
 			myFocus:function(p,fn){
 				if(!p) p={};
 				p.id=this[0].id;
-				if(!p.id) p.id=this[0].id='mF__NAME__';
-				myFocus.set(p,true,fn);
+				if(!p.id) p.id=this[0].id='mF__ID__';
+				myFocus.set(p,fn);
 			}
 		});
 	}
