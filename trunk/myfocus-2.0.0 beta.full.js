@@ -8,7 +8,56 @@
 * Date: 2012/04/28
 */
 (function(){
-	var Base={
+	//获取DOM基础函数
+	var $id=function(id){
+			return typeof id==='string'?document.getElementById(id):id;
+		},
+		$tag=function(tag,parentNode){
+			return ($id(parentNode)||document).getElementsByTagName(tag);
+		},
+		$tag_=function(tag,parentNode){
+			return $getChild(tag,parentNode,'tag');
+		},
+		$class=function(className,parentNode){
+			var doms=$tag('*',parentNode),className=className.replace(/\-/g,'\\-'),reg=new RegExp('(^|\\s)'+className+'(\\s|$)'),arr=[];
+			for(var i=0,l=doms.length;i<l;i++){
+				if(reg.test(doms[i].className)){
+					arr.push(doms[i]);
+				}
+			}
+			return arr;
+		},
+		$class_=function(className,parentNode){
+			return $getChild(className,parentNode);
+		},
+		$getChild=function(selector,parentNode,type){
+			var arr=[],fn=type==='tag'?$tag:$class,doms=fn(selector,parentNode),len=doms.length;
+			for(var i=0;i<len;i++){
+				if(doms[i].parentNode===parentNode) arr.push(doms[i]);
+				i+=fn(selector,doms[i]).length;
+			}
+			return arr;
+		};
+	//
+	myFocus=function(settings){
+		return new myFocus.constr(settings);
+	};
+	myFocus.extend=function(){//扩展
+		var arg=arguments,len=arg.length;
+		if(this===myFocus){//作为方法扩展，如果只有一个参数扩展本身
+			if(len===1) dest=myFocus,i=0;//扩展myFocus类
+			else dest=arg[0],i=1;
+		}else{//扩展引用对象本身
+			dest=this,i=0;
+		}
+		for(i;i<len;i++){
+			for(var p in arg[i]){
+				dest[p]=arg[i][p];//dest属性最低
+			}
+		}
+		return dest;
+	};
+	myFocus.extend({
 		defConfig:{//全局默认设置
 			pattern:'mF_fscreen_tb',//风格样式
 			trigger:'click',//触发切换模式['click'(鼠标点击)|'mouseover'(鼠标悬停)]
@@ -43,8 +92,9 @@
 		},
 		fn:{splice:[].splice},//原形
 		pattern:{}//风格集
-	};
-	Base.fn.__DOM__={
+	});
+	myFocus.constr.prototype=myFocus.fn;
+	myFocus.fn.extend({//DOM
 		find:function(selector){//选择器只应用基本查找,暂不考虑用querySelectorAll
 			var parent=this,isChild=false,$=myFocus;
 			var arr=this.parseSelector(selector);
@@ -161,8 +211,8 @@
 			pNode.innerHTML=s.join('');
 			return myFocus(pNode).find(this[0].nodeName);
 		}
-	};
-	Base.fn.__CSS__={
+	});
+	myFocus.fn.extend({//CSS
 		css:function(css){//可获值或设值
 			var o=this[0],value,arr=[';'],isIE=myFocus.isIE;
 			if(!o) return this;
@@ -199,8 +249,8 @@
 			return this;
 		},
 		cssNumber:{fillOpacity:true,fontWeight:true,lineHeight:true,opacity:true,orphans:true,widows:true,zIndex:true,zoom:true}//不加px的css,参考jQuery
-	};
-	Base.fn.__Anim__={
+	});
+	myFocus.fn.extend({//ANIMATE
 		animate:function(attr,value,time,type,funcBefore,funcAfter){//value支持相对增值'+=100',相对减值'-=100'形式
 			var $o=this,o=$o[0],isOpacity=attr==='opacity',diffValue=false;
 			funcBefore&&funcBefore.call(o);
@@ -265,8 +315,8 @@
 			easeOut:function(t,b,c,d){return -c*((t=t/d-1)*t*t*t - 1) + b;},
 			easeInOut:function(t,b,c,d){return ((t/=d/2) < 1)?(c/2*t*t*t*t + b):(-c/2*((t-=2)*t*t*t - 2) + b);}
 		}
-	};
-	Base.fn.__Method__={
+	});
+	myFocus.fn.extend({//method
 		bind:function(type,fn){
 			myFocus.addEvent(this[0],type,fn);
 			return this;
@@ -362,8 +412,8 @@
 			$ul.slide(css,500,'easeOut');
 			return this;
 		}
-	};
-	Base.__Init__={
+	});
+	myFocus.extend({//init
 		set:function(p,runNow,callback){//runNow是针对DOM加载而言,默认false
 			var F=this,id=p.id,oStyle=F.initBaseCSS(id);
 			if(typeof runNow!=='boolean') callback=runNow,runNow=false;
@@ -466,8 +516,8 @@
 				if(!img.getAttribute('src')) img.style.display='none';
 			}
 		}
-	},
-	Base.__Method__={
+	});
+	myFocus.extend({//
 		isIE:!!(document.all&&navigator.userAgent.indexOf('Opera')===-1),//!(+[1,]) BUG IN IE9+?
 		alterSRC:function(o,suffix,del){
 			var img=$tag('img',o)[0];
@@ -495,37 +545,9 @@
 				}
 			},false);
 		}
-	};
-	myFocus=function(settings){
-		return new myFocus.constr(settings);
-	};
-	myFocus.extend=function(){//扩展
-		var arg=arguments,len=arg.length;
-		if(this===myFocus){//作为方法扩展，如果只有一个参数扩展本身
-			if(len===1) dest=myFocus,i=0;//扩展myFocus类
-			else dest=arg[0],i=1;
-		}else{//扩展引用对象本身
-			dest=this,i=0;
-		}
-		for(i;i<len;i++){
-			for(var p in arg[i]){
-				dest[p]=arg[i][p];//dest属性最低
-			}
-		}
-		return dest;
-	};
-	myFocus.extend(Base,Base.__Init__,Base.__Method__);
-	delete Base.__Init__;
-	delete Base.__Method__;
-	myFocus.extend(Base);
-	//console.debug(Base);
-	myFocus.constr.prototype=myFocus.fn;
+	});
+	//扩展方法继承
 	myFocus.fn.extend=myFocus.pattern.extend=myFocus.defConfig.extend=myFocus.extend;
-	myFocus.fn.extend(Base.fn.__DOM__,Base.fn.__CSS__,Base.fn.__Anim__,Base.fn.__Method__);
-	delete Base.fn.__DOM__;
-	delete Base.fn.__CSS__;
-	delete Base.fn.__Anim__;
-	delete Base.fn.__Method__;
 	//支持JQ
 	if(typeof jQuery!=='undefined'){
 		jQuery.fn.extend({
@@ -537,30 +559,4 @@
 			}
 		});
 	}
-	//获取DOM基础函数
-	var $id=function(id){return typeof id==='string'?document.getElementById(id):id;};
-	var $tag=function(tag,parentNode){return ($id(parentNode)||document).getElementsByTagName(tag);};
-	var $tag_=function(tag,parentNode){
-		return $getChild(tag,parentNode,'tag');
-	};
-	var $class=function(className,parentNode){
-		var doms=$tag('*',parentNode),className=className.replace(/\-/g,'\\-'),reg=new RegExp('(^|\\s)'+className+'(\\s|$)'),arr=[];
-		for(var i=0,l=doms.length;i<l;i++){
-			if(reg.test(doms[i].className)){
-				arr.push(doms[i]);
-			}
-		}
-		return arr;
-	};
-	var $class_=function(className,parentNode){
-		return $getChild(className,parentNode);
-	};
-	var $getChild=function(selector,parentNode,type){
-		var arr=[],fn=type==='tag'?$tag:$class,doms=fn(selector,parentNode),len=doms.length;
-		for(var i=0;i<len;i++){
-			if(doms[i].parentNode===parentNode) arr.push(doms[i]);
-			i+=fn(selector,doms[i]).length;
-		}
-		return arr;
-	};
 })();
