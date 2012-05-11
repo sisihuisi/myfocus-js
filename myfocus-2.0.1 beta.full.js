@@ -456,16 +456,16 @@
 			setTimeout(function(){if(!isSuccess) alert('Failed to load: '+src);},timeout);
 		},
 		getFilePath:function(){
-			var path = '';
-			var scripts = $tag("script");
-			for(var i = 0 , len = scripts.length ; i <len ; i++){
-				var src = scripts[i].src;
-				if(src && /myfocus-.*?\.js/i.test(src)){
-					path = src;
+			var path='';
+			var scripts=$tag("script");
+			for(var i=0,len=scripts.length;i<len;i++){
+				var src=scripts[i].src;
+				if(src&&/myfocus-.*?\.js/i.test(src)){
+					path=src;
 					break;
 				}
 			};
-			return path.slice( 0, path.lastIndexOf('/') + 1 );
+			return path.slice(0,path.lastIndexOf('/')+1);
 		},
 		getBoxReady:function(p,fn){
 			var F=this;

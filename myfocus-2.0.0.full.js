@@ -156,7 +156,7 @@
 		eq:function(n){
 			return myFocus(this[n]);
 		},
-		parseSelector:function(selector){
+		parseSelector:function(selector){//选择器分析,部分参考了Sizzle
 			var chunker=/(([^[\]'"]+)+\]|\\.|([^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?/g;
 			var parts=[],m;
 			while((m = chunker.exec(selector)) !== null ) {
@@ -312,7 +312,7 @@
 			for(var p in o) if(p.indexOf('__myFocusTimer__')!==-1) o[p]&&clearInterval(o[p]);
 			return this;
 		},
-		easing:{
+		easing:{//集成部分缓动效果,参考Easing v1.3
 			linear:function(t,b,c,d){return c*t/d + b;},
 			swing:function(t,b,c,d) {return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;},
 			easeIn:function(t,b,c,d){return c*(t/=d)*t*t*t + b;},
@@ -432,7 +432,6 @@
 					F.initHTML($o);//html
 					$o.addClass(p.pattern+' '+p.__clsName);//+className
 					F.getIMGReady(p,function(){
-						//if(p.autoZoom) this.fixIMG(p.id,p.width,p.height);
 						F.pattern[p.pattern](p,F);//运行pattern代码
 						callback&&callback();
 					});
@@ -455,16 +454,16 @@
 			setTimeout(function(){if(!isSuccess) alert('Failed to load: '+src);},timeout);
 		},
 		getFilePath:function(){
-			var path = '';
-			var scripts = $tag("script");
-			for(var i = 0 , len = scripts.length ; i <len ; i++){
-				var src = scripts[i].src;
-				if(src && /myfocus-.*?\.js/i.test(src)){
-					path = src;
+			var path='';
+			var scripts=$tag("script");
+			for(var i=0,len=scripts.length;i<len;i++){
+				var src=scripts[i].src;
+				if(src&&/myfocus-.*?\.js/i.test(src)){
+					path=src;
 					break;
 				}
 			};
-			return path.slice( 0, path.lastIndexOf('/') + 1 );
+			return path.slice(0,path.lastIndexOf('/')+1);
 		},
 		getBoxReady:function(p,fn){
 			var F=this;
@@ -498,7 +497,6 @@
 			var css=[],w=p.width||'',h=p.height||'';
 			if(p.wrap) $o.wrap('<div class="'+p.pattern+'_wrap"></div>');
 			css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .loading{position:absolute;z-index:9999;width:100%;height:100%;color:#666;text-align:center;padding-top:'+0.26*h+'px;background:#fff;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
-			//if(p.autoZoom) css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
 			try{oStyle.styleSheet.cssText=css.join('')}catch(e){oStyle.innerHTML=css.join('')}
 		},
 		initBaseCSS:function(id){
