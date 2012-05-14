@@ -1,5 +1,5 @@
-myFocus.pattern.extend({//*********************kendoui******************
-	'mF_kendoui':function(settings,$){
+myFocus.pattern.extend({//*********************kdui******************
+	'mF_kdui':function(settings,$){
 		var $focus=$(settings);
 		var $picList=$focus.find('.pic li');
 		var $txtList=$focus.addListTxt().find('li');
