@@ -1,4 +1,4 @@
-myFocus.pattern.extend({//*********************luluJQ******************
+﻿myFocus.pattern.extend({//*********************luluJQ******************
 	'mF_luluJQ':function(settings,$){
 		var $focus=$(settings);
 		$focus.find('.pic a').each(function(){
@@ -36,7 +36,7 @@ myFocus.pattern.extend({//*********************luluJQ******************
 myFocus.defConfig.extend({//可选个性参数
 	tabWidth:68,//图片tab留边宽度(像素)
 	txtHeight:34,//文字层高度(像素)
-	grayChange:true,//非当前图片是否变灰,可选：true(是) | false(否),如果要变灰,请准备灰色图片副本,并配合下面参数grayPicSuffix设置
+	grayChange:false,//非当前图片是否变灰,可选：true(是) | false(否),如果要变灰,请准备灰色图片副本,并配合下面参数grayPicSuffix设置
 	grayPicSuffix:'-gray'//灰色图片的名称后缀,例如原图是'1.jpg',灰色副本则以'1-gray.jpg'规则命名(建议在myFocus的DIV后添加它的隐藏灰色副本DIV,这样可以预加载副本图片)
 });
 //扩充myFocus全局一个方法(更换灰色的图片)
