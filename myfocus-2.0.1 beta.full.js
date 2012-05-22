@@ -414,7 +414,7 @@
 				this.showEnd=this.showStart+this.showNum-1;
 			}
 			css[dir]=-this.showStart*this.distance;
-			$ul.slide(css,500,'easeOut');
+			$ul.slide(css,time||500,'easeOut');
 			return this;
 		}
 	});
