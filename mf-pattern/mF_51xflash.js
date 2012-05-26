@@ -42,4 +42,6 @@
 		});
 	}
 });
-myFocus.defConfig.extend({txtHeight:34});//默认文字层高度
+myFocus.config.extend({
+	'mF_51xflash':{txtHeight:34}//默认文字层高度
+});

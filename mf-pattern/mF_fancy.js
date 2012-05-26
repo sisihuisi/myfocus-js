@@ -1,4 +1,9 @@
-myFocus.pattern.extend({//*********************fancy v1.0******************
+﻿/*
+* fancy v1.0
+* Date 2012.5.8
+* Author koen_lee
+*/
+myFocus.pattern.extend({
 	'mF_fancy':function(settings,$){
 		var $focus=$(settings);
 		var $txtList=$focus.addListTxt().find('li');
@@ -107,4 +112,4 @@ myFocus.pattern.extend({//*********************fancy v1.0******************
 		});
 	}
 });
-myFocus.defConfig.extend({effect:'random'});//过渡效果:['random'(随机)|'surf'(冲浪)|'sliceUpDown'(上下滑动)|'sliceDown'(下滑动)|'fold'(折叠)|'fade'(渐变)]
+myFocus.config.extend({'mF_fancy':{effect:'random'}});//过渡效果:['random'(随机)|'surf'(冲浪)|'sliceUpDown'(上下滑动)|'sliceDown'(下滑动)|'fold'(折叠)|'fade'(渐变)]

@@ -36,7 +36,9 @@ myFocus.pattern.extend({//*********************ladyQ******************
 		}
 	}
 });
-myFocus.defConfig.extend({
-	txtHeight:58,//默认标题高度
-	timeBar:false//是否有时间条[true(有)|false(无)]
+myFocus.config.extend({
+	'mF_ladyQ':{//可选个性参数
+		txtHeight:58,//默认标题高度
+		timeBar:false//是否有时间条[true(有)|false(无)]
+	}
 });

@@ -35,7 +35,7 @@ myFocus.pattern.extend({//*********************百叶窗******************
 		//Control
 		$prevBtn.bind('click',function(){if(!running) $focus.run('-=1')});
 		$nextBtn.bind('click',function(){if(!running) $focus.run('+=1')});
-		$focus.bind('mouseover',function(){$prevBtn[0].style.display=$nextBtn[0].style.display='block'});
-		$focus.bind('mouseout',function(){$prevBtn[0].style.display=$nextBtn[0].style.display='none'});
+		$focus.bind('mouseover',function(){$prevBtn.addClass('hover'),$nextBtn.addClass('hover')});
+		$focus.bind('mouseout',function(){$prevBtn.removeClass('hover'),$nextBtn.removeClass('hover')});
 	}
 });

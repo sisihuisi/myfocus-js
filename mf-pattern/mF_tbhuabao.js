@@ -35,4 +35,4 @@ myFocus.pattern.extend({//*********************tbhuabao******************
 		$nextBtn.bind('click',function(){$focus.run('+=1')});
 	}
 });
-myFocus.defConfig.extend({seamless:true});//支持无缝设置
+myFocus.config.extend({'mF_tbhuabao':{seamless:true}});//支持无缝设置

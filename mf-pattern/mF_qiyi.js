@@ -25,4 +25,4 @@
 		$focus.bindControl($numList);
 	}
 });
-myFocus.defConfig.extend({txtHeight:34});//默认文字层高度
+myFocus.config.extend({'mF_qiyi':{txtHeight:34}});//默认文字层高度

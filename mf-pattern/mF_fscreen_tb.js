@@ -37,8 +37,10 @@
 		$nextBtn.bind('click',function(){$focus.run('+=1')});
 	}
 });
-myFocus.defConfig.extend({
-	thumbShowNum:4,//略缩图显示数目
-	thumbBtnWidth:28,//略缩图导航(prev/next)按钮的宽度
-	thumbHeight:72//略缩图总高度
+myFocus.config.extend({
+	'mF_fscreen_tb':{//可选个性参数
+		thumbShowNum:4,//略缩图显示数目
+		thumbBtnWidth:28,//略缩图导航(prev/next)按钮的宽度
+		thumbHeight:72//略缩图总高度
+	}
 });

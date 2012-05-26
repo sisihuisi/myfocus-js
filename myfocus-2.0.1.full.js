@@ -1,11 +1,11 @@
 /*
-* myFocus JavaScript Library v2.0.0
+* myFocus JavaScript Library v2.0.1
 * Open source under the BSD & GPL License
 * 
 * Copyright 2012, Koen Lee
 * http://cosmissy.com/
 * 
-* Date: 2012/05/10
+* Date: 2012/05/26
 */
 (function(){
 	//DOM基础操作函数
@@ -72,33 +72,33 @@
 			index:0,//开始显示的图片序号(从0算起)[num(数字)]
 			loadIMGTimeout:3,//载入图片的最长等待时间(Loading画面时间)[num(数字,单位秒,0表示不等待直接播放)]
 			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
-			//autoZoom:false,//是否允许图片自动缩放居中[true|false]
 			__focusConstr__:true//程序构造参数
 		},
 		constr:function(settings){//构造函数
-			var e=settings.__focusConstr__?$id(settings.id):settings;
+			var e=settings,len=e&&e.length;
 			if(e instanceof myFocus.constr) return e;//myFocus::[]
-			if(!e||(e.sort&&!e.length)||(e.item&&!e.length)){//null/array/nodeList
+			this.length=0;
+			if(!e||(e.sort&&!len)||(e.item&&!len)){//null/array::[]/nodeList::[]
 				Array.prototype.push.call(this);
-				return this;
-			}
-			var len=e.length;
-			this.length = 0;
-		  	if(len){//包括字符串
-				for(var i=0;i<len;i++) Array.prototype.push.call(this,e[i]);
-			}else{//myFocus
+			}else if(e.__focusConstr__){//new myFocus
+				e=$id(e.id);
 				Array.prototype.push.call(this,e);
 				this.settings=settings;
 				this.HTMLUList=$tag('li',$tag('ul',e)[0]);
 				this.HTMLUListLength=this.HTMLUList.length;
+			}else if(len){//nodeList/Array/字符串
+				for(var i=0;i<len;i++) Array.prototype.push.call(this,e[i]);
+			}else{//node
+				Array.prototype.push.call(this,e);
 			}
 			return this;
 		},
 		fn:{splice:[].splice},//原形
-		pattern:{}//风格集
+		pattern:{},//风格集
+		config:{}//参数集
 	});
 	myFocus.constr.prototype=myFocus.fn;
-	myFocus.fn.extend=myFocus.pattern.extend=myFocus.defConfig.extend=myFocus.extend;
+	myFocus.fn.extend=myFocus.pattern.extend=myFocus.config.extend=myFocus.extend;
 	myFocus.fn.extend({//DOM
 		find:function(selector){//选择器只应用基本查找,暂不考虑用querySelectorAll
 			var parent=this,isChild=false,$=myFocus;
@@ -425,15 +425,14 @@
 			p.__clsName=p.pattern+'_'+id;
 			F.addEvent(window,'load',function(){F.onloadWindow=true});
 			F.loadPattern(p,function(){
-				p=F.extend({},F.defConfig,p);//收集完整参数
+				p=F.extend({},F.defConfig,F.config[p.pattern],p);//收集完整参数
 				F.getBoxReady(p,function(){
-					var $o=F(p);
+					var $o=F($id(id));
 					p.width=p.width||$o.css('width'),p.height=p.height||$o.css('height');//获得box高/宽
 					F.initCSS(p,$o,oStyle);//css
 					F.initHTML($o);//html
 					$o.addClass(p.pattern+' '+p.__clsName);//+className
 					F.getIMGReady(p,function(){
-						//if(p.autoZoom) this.fixIMG(p.id,p.width,p.height);
 						F.pattern[p.pattern](p,F);//运行pattern代码
 						callback&&callback();
 					});
@@ -530,22 +529,6 @@
 				}
 			},false);
 		}
-		/*alterSRC:function(o,suffix,del){
-			var img=$tag('img',o)[0];
-			img.src=del?img.src.replace(eval("/"+suffix+"\\.(?=[^\\.]+$)/g"),'.'):img.src.replace(/\.(?=[^\.]+$)/g,suffix+'.');
-		}
-		fixIMG:function(box,boxWidth,boxHeight){
-			var imgs=this.$$('img',box),len=imgs.length,IMG = new Image();
-			for(var i=0;i<len;i++){
-				IMG.src = imgs[i].src;
-				if(IMG.width / IMG.height >= boxWidth / boxHeight){
-					imgs[i].style.width=boxWidth+'px';
-					imgs[i].style.marginTop=(boxHeight-boxWidth/IMG.width*IMG.height)/2+'px';//垂直居中
-				}else{
-					imgs[i].style.height=boxHeight+'px';
-				}
-			};
-		},*/
 	});
 	//支持JQ
 	if(typeof jQuery!=='undefined'){

@@ -34,9 +34,11 @@
 		$focus.bindControl($picList);
 	}
 });
-myFocus.defConfig.extend({//可选个性参数
-	tabWidth:68,//图片tab留边宽度(像素)
-	txtHeight:34,//文字层高度(像素)
-	grayChange:true,//非当前图片是否变暗,可选：true(是) | false(否)
-	grayOpacity:0.5//非当前图片的透明度
+myFocus.config.extend({
+	'mF_luluJQ':{//可选个性参数
+		tabWidth:68,//图片tab留边宽度(像素)
+		txtHeight:34,//文字层高度(像素)
+		grayChange:true,//非当前图片是否变暗,可选：true(是) | false(否)
+		grayOpacity:0.5//非当前图片的透明度
+	}
 });
