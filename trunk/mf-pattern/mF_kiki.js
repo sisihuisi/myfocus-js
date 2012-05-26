@@ -43,7 +43,9 @@ myFocus.pattern.extend({//*********************kiki******************
 		$nextBtn.bind('click',function(){$focus.run('+=1')});
 	}
 });
-myFocus.defConfig.extend({
-	turn:'random',//翻牌方向,可选：'left'(左)|'right'(右)|'up'(上)|'down'(下)|'random'(单向随机)
-	txtHeight:30//标题默认高度
+myFocus.config.extend({
+	'mF_kiki':{//可选个性参数
+		turn:'random',//翻牌方向,可选：'left'(左)|'right'(右)|'up'(上)|'down'(下)|'random'(单向随机)
+		txtHeight:30//标题默认高度
+	}
 });

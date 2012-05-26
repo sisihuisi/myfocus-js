@@ -27,4 +27,4 @@
 		$focus.bindControl($numList);
 	}
 });
-myFocus.defConfig.extend({txtHeight:36});//默认文字层高度
+myFocus.config.extend({'mF_expo2010':{txtHeight:36}});//默认文字层高度

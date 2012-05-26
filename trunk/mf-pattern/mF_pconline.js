@@ -21,7 +21,9 @@ myFocus.pattern.extend({//*********************太平洋电脑网风格*********
 		$focus.bindControl($numList);
 	}
 });
-myFocus.defConfig.extend({
-	duration:200,//图片淡出时间
-	txtHeight:28//标题高度
+myFocus.config.extend({
+	'mF_pconline':{
+		duration:200,//图片淡出时间
+		txtHeight:28//标题高度
+	}
 });

@@ -21,4 +21,4 @@ myFocus.pattern.extend({//*********************YSlide--翻页效果*************
 		$focus.bindControl($numList);
 	}
 });
-myFocus.defConfig.extend({direction:'random'});//切出方向,可选：'random'(随机) | 'single'(单向/向右)
+myFocus.config.extend({'mF_YSlider':{direction:'random'}});//切出方向,可选：'random'(随机) | 'single'(单向/向右)

@@ -45,10 +45,12 @@ myFocus.pattern.extend({//*********************pithy******************
 		$nextBtn2.bind('click',function(){$focus.run('+=1')});
 	}
 });
-myFocus.defConfig.extend({
-	seamless:true,//是否无缝，可选：true(是) | false(否)
-	txtHeight:38,//标题高度
-	thumbShowNum:4,//略缩图显示数目
-	thumbBtnHeight:0,//略缩图导航(prev/next)按钮的高度
-	thumbWidth:112//略缩图总宽度
+myFocus.config.extend({
+	'mF_pithy_tb':{//可选个性参数
+		seamless:true,//是否无缝，可选：true(是) | false(否)
+		txtHeight:38,//标题高度
+		thumbShowNum:4,//略缩图显示数目
+		thumbBtnHeight:0,//略缩图导航(prev/next)按钮的高度
+		thumbWidth:112//略缩图总宽度
+	}
 });

@@ -42,7 +42,9 @@ myFocus.pattern.extend({//*********************雷柏风格******************
 		$nextBtn.bind('click',function(){$focus.run('+=1')});
 	}
 });
-myFocus.defConfig.extend({
-	txtWidth:68,//文字段宽度(像素)
-	txtHeight:18//文字段高度(像素)
+myFocus.config.extend({
+	'mF_rapoo':{//可选个性参数
+		txtWidth:68,//文字段宽度(像素)
+		txtHeight:18//文字段高度(像素)
+	}
 });

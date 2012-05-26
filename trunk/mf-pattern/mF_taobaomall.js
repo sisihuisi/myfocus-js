@@ -29,10 +29,12 @@ myFocus.pattern.extend({//*********************淘宝商城风格***************
 		$focus.bindControl($txtList);
 	}
 });
-myFocus.defConfig.extend({//可选个性参数
-	txtHeight:28,//默认标题按钮高度
-	seamless:true,//是否无缝：true(是)| false(否)
-	duration:600,//过渡时间(毫秒)，时间越大速度越小
-	direction:'top',//运动方向，可选：'top'(向上) | 'bottom'(向下) | 'left'(向左) | 'right'(向右)
-	easing:'easeOut'//运动形式，可选：'easeOut'(快出慢入) | 'easeIn'(慢出快入) | 'easeInOut'(慢出慢入) | 'swing'(摇摆运动) | 'linear'(匀速运动)
+myFocus.config.extend({
+	'mF_taobaomall':{//可选个性参数
+		txtHeight:28,//默认标题按钮高度
+		seamless:true,//是否无缝：true(是)| false(否)
+		duration:600,//过渡时间(毫秒)，时间越大速度越小
+		direction:'top',//运动方向，可选：'top'(向上) | 'bottom'(向下) | 'left'(向左) | 'right'(向右)
+		easing:'easeOut'//运动形式，可选：'easeOut'(快出慢入) | 'easeIn'(慢出快入) | 'easeInOut'(慢出慢入) | 'swing'(摇摆运动) | 'linear'(匀速运动)
+	}
 });

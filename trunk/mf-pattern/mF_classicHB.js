@@ -24,4 +24,4 @@ myFocus.pattern.extend({
 		$focus.bindControl($numList);
 	}
 });
-myFocus.defConfig.extend({txtHeight:20});//默认文字层高度
+myFocus.config.extend({'mF_classicHB':{txtHeight:20}});//默认文字层高度
