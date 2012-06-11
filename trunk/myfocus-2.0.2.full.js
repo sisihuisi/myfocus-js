@@ -1,11 +1,11 @@
 ﻿/*
-* myFocus JavaScript Library v2.0.1
+* myFocus JavaScript Library v2.0.2
 * Open source under the BSD & GPL License
 * 
 * Copyright 2012, Koen Lee
 * http://cosmissy.com/
 * 
-* Date: 2012/05/26
+* Date: 2012/06/11
 */
 (function(){
 	//DOM基础操作函数
