@@ -1,5 +1,5 @@
 ﻿/*
-* myFocus JavaScript Library v2.0.1
+* myFocus JavaScript Library v2.0.3
 * Open source under the BSD & GPL License
 * 
 * Copyright 2012, Koen Lee
