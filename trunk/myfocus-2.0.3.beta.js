@@ -457,6 +457,7 @@
 				if(!js.readyState||js.readyState=="loaded"||js.readyState=="complete"){
 					isLoaded=true;
 					callback(),isSuccess=1;
+					js.onload=js.onreadystatechange=null;
 				}
 			};
 			setTimeout(function(){if(!isSuccess) alert('Failed to load: '+src);},timeout);
@@ -490,16 +491,18 @@
 			var box=$id(p.id),img=$tag('img',box),len=img.length,count=0,done=false;
 			if(!t||!len){callback();return;}//无延迟
 			for(var i=0;i<len;i++){
-				img[i].onload=function(){
+				var IMG=new Image();
+				IMG.onload=function(){
 					count+=1;
+					//IMG.onload=null;
 					if(count==len&&!done){done=true,callback();}
 				};
-				if(this.isIE) img[i].src=img[i].src;//修复IE BUG
+				IMG.src=img[i].src;
 			};
-			var t=t*1000;
+			/*var t=t*1000;
 			setTimeout(function(){
 				if(!done){done=true,callback();}
-			},t);
+			},t);*/
 		},
 		zoomIMG:function(p,$o){
 			var imgs=$tag('img',$tag('ul',$o[0])[0]),len=imgs.length,boxWidth=p.width,boxHeight=p.height;
