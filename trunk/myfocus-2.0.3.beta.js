@@ -5,7 +5,7 @@
 * Copyright 2012, Koen Lee
 * http://cosmissy.com/
 * 
-* Date: 2012/05/26
+* Date: 2012/10/24
 */
 (function(){
 	//DOM基础操作函数
@@ -446,13 +446,18 @@
 			if(this.pattern[p.pattern]){callback();return;}//如果已加载pattern
 			var path=this.getFilePath()+'mf-pattern/'+p.pattern;
 			var js= document.createElement("script"),css=document.createElement("link"),src=path+'.js',href=path+'.css'; 
-    		js.type = "text/javascript",js.src=src;
+    		var isLoaded=false;//加判断以兼容IE9+
+			js.type = "text/javascript",js.src=src;
 			css.rel = "stylesheet",css.href=href;
 			var head=$tag('head')[0],isSuccess=0,timeout=3000;//超时3秒
 			head.appendChild(css);
 			head.appendChild(js);
 			js.onload=js.onreadystatechange=function(){
-				if(!js.readyState||js.readyState=="loaded"||js.readyState=="complete") callback(),isSuccess=1;
+				if(isLoaded) return;//防止IE9+重复执行
+				if(!js.readyState||js.readyState=="loaded"||js.readyState=="complete"){
+					isLoaded=true;
+					callback(),isSuccess=1;
+				}
 			};
 			setTimeout(function(){if(!isSuccess) alert('Failed to load: '+src);},timeout);
 		},
