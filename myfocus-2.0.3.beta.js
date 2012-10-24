@@ -70,7 +70,7 @@
 			auto:true,//是否自动播放(切换)[true|false]
 			time:4,//每次停留时间[num(数字,单位秒)]
 			index:0,//开始显示的图片序号(从0算起)[num(数字)]
-			loadIMGTimeout:3,//载入图片的最长等待时间(Loading画面时间)[num(数字,单位秒,0表示不等待直接播放)]
+			loadingShow:true,//是否显示Loading画面[true(显示，即等待图片加载完)|false(不显示，即不等待图片加载完)]
 			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
 			autoZoom:false,//是否允许图片自动缩放居中[true|false]
 			__focusConstr__:true//程序构造参数
@@ -429,12 +429,14 @@
 				p=F.extend({},F.defConfig,F.config[p.pattern],p);//收集完整参数
 				F.getBoxReady(p,function(){
 					var $o=F($id(id));
+					p.$o=$o;//保存node
+					p.pic=$class('pic',$o[0])[0];//保存node for是否标准风格的判断及是否需要initcss/autoZoom
 					p.width=p.width||$o.css('width'),p.height=p.height||$o.css('height');//获得box高/宽
-					F.initCSS(p,$o,oStyle);//css
-					F.initHTML($o);//html
+					F.initCSS(p,oStyle);//css
 					$o.addClass(p.pattern+' '+p.__clsName);//+className
-					F.getIMGReady(p,function(){
-						if(p.autoZoom) F.zoomIMG(p,$o);//autoZoom
+					F.getIMGReady(p,function(arrSize){
+						//console.log(arrSize);
+						F.zoomIMG(p,arrSize);//autoZoom
 						F.pattern[p.pattern](p,F);//运行pattern代码
 						callback&&callback();
 					});
@@ -446,21 +448,20 @@
 			if(this.pattern[p.pattern]){callback();return;}//如果已加载pattern
 			var path=this.getFilePath()+'mf-pattern/'+p.pattern;
 			var js= document.createElement("script"),css=document.createElement("link"),src=path+'.js',href=path+'.css'; 
-    		var isLoaded=false;//加判断以兼容IE9+
 			js.type = "text/javascript",js.src=src;
 			css.rel = "stylesheet",css.href=href;
-			var head=$tag('head')[0],isSuccess=0,timeout=3000;//超时3秒
+			var head=$tag('head')[0],isSuccess=false,timeout=10*1000;//超时10秒
 			head.appendChild(css);
 			head.appendChild(js);
 			js.onload=js.onreadystatechange=function(){
-				if(isLoaded) return;//防止IE9+重复执行
+				if(isSuccess) return;//防止IE9+重复执行
 				if(!js.readyState||js.readyState=="loaded"||js.readyState=="complete"){
-					isLoaded=true;
-					callback(),isSuccess=1;
+					isSuccess=true;
+					callback();
 					js.onload=js.onreadystatechange=null;
 				}
 			};
-			setTimeout(function(){if(!isSuccess) alert('Failed to load: '+src);},timeout);
+			setTimeout(function(){if(!isSuccess) $id(p.id).innerHTML='加载失败: '+src;},timeout);
 		},
 		getFilePath:function(){
 			var path='';
@@ -487,41 +488,39 @@
 			})();
 		},
 		getIMGReady:function(p,callback){
-			var t=p.loadIMGTimeout;
-			var box=$id(p.id),img=$tag('img',box),len=img.length,count=0,done=false;
-			if(!t||!len){callback();return;}//无延迟
+			var isShow=p.loadingShow;
+			var box=$id(p.id),img=$tag('img',p.pic),len=img.length,
+				count=0,done=false,arrSize=[];
+			if(!isShow||!len){callback();return;}//无延迟
 			for(var i=0;i<len;i++){
 				var IMG=new Image();
 				IMG.onload=function(){
 					count+=1;
-					//IMG.onload=null;
-					if(count==len&&!done){done=true,callback();}
+					arrSize.push({w:IMG.width,h:IMG.height});//储存for autoZoom
+					if(count==len&&!done){done=true,callback(arrSize);}
 				};
 				IMG.src=img[i].src;
 			};
-			/*var t=t*1000;
-			setTimeout(function(){
-				if(!done){done=true,callback();}
-			},t);*/
 		},
-		zoomIMG:function(p,$o){
-			var imgs=$tag('img',$tag('ul',$o[0])[0]),len=imgs.length,boxWidth=p.width,boxHeight=p.height;
+		zoomIMG:function(p,arrSize){
+			var imgs=$tag('img',p.pic),len=imgs.length,boxWidth=p.width,boxHeight=p.height;
 			for(var i=0;i<len;i++){
-				var IMG=new Image();
-				IMG.src = imgs[i].src;
-				if(IMG.width / IMG.height >= boxWidth / boxHeight){
+				var w=arrSize[i].w, h=arrSize[i].h;
+				if(w == boxWidth && h == boxHeight) return;
+				if(w / h >= boxWidth / boxHeight){
 					imgs[i].style.width=boxWidth+'px';
-					imgs[i].style.marginTop=(boxHeight-boxWidth/IMG.width*IMG.height)/2+'px';//垂直居中
+					imgs[i].style.marginTop=(boxHeight-boxWidth/w*h)/2+'px';//垂直居中
 				}else{
 					imgs[i].style.height=boxHeight+'px';
 				}
 			};
 		},
-		initCSS:function(p,$o,oStyle){
+		initCSS:function(p,oStyle){
+			if(!p.pic) return;
 			var css=[],w=p.width||'',h=p.height||'';
-			if(p.wrap) $o.wrap('<div class="'+p.pattern+'_wrap"></div>');
-			css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .loading{position:absolute;z-index:9999;width:100%;height:100%;color:#666;text-align:center;padding-top:'+0.26*h+'px;background:#fff;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
-			if(p.autoZoom) css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
+			if(p.wrap) p.$o.wrap('<div class="'+p.pattern+'_wrap"></div>');
+			css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
+			css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
 			try{oStyle.styleSheet.cssText=css.join('')}catch(e){oStyle.innerHTML=css.join('')}
 		},
 		initBaseCSS:function(id){
@@ -531,13 +530,6 @@
 			var oHead = $tag('head',document)[0];
 			oHead.insertBefore(oStyle,oHead.firstChild);
 			return oStyle;
-		},
-		initHTML:function($o){
-			var $load=$o.find('.loading'),$img=$load.find('img'),img=$img[0];
-			if($img.length){
-				$load.addHtml('<p>'+img.alt+'</p>');
-				if(!img.getAttribute('src')) img.style.display='none';
-			}
 		}
 	});
 	myFocus.extend({//Method(myFocus)
