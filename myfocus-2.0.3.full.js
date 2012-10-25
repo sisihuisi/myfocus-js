@@ -72,7 +72,6 @@
 			index:0,//开始显示的图片序号(从0算起)[num(数字)]
 			loadingShow:true,//是否显示Loading画面[true(显示，即等待图片加载完)|false(不显示，即不等待图片加载完)]
 			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
-			autoZoom:false,//是否允许图片自动缩放居中[true|false]
 			__focusConstr__:true//程序构造参数
 		},
 		constr:function(settings){//构造函数
@@ -430,13 +429,13 @@
 				F.getBoxReady(p,function(){
 					var $o=F($id(id));
 					p.$o=$o;//保存node
-					p.pic=$class('pic',$o[0])[0];//保存node for是否标准风格的判断及是否需要initcss/autoZoom
+					p.pic=$class('pic',$o[0])[0];//保存node for是否标准风格的判断及是否需要initcss
 					p.width=p.width||$o.css('width'),p.height=p.height||$o.css('height');//获得box高/宽
 					F.initCSS(p,oStyle);//css
 					$o.addClass(p.pattern+' '+p.__clsName);//+className
 					F.getIMGReady(p,function(arrSize){
 						//console.log(arrSize);
-						F.zoomIMG(p,arrSize);//autoZoom
+						F.zoomIMG(p,arrSize);//缩放图片
 						F.pattern[p.pattern](p,F);//运行pattern代码
 						callback&&callback();
 					});
@@ -496,7 +495,7 @@
 				var IMG=new Image();
 				IMG.onload=function(){
 					count+=1;
-					arrSize.push({w:IMG.width,h:IMG.height});//储存for autoZoom
+					arrSize.push({w:IMG.width,h:IMG.height});//储存for zoomIMG
 					if(count==len&&!done){done=true,callback(arrSize);}
 				};
 				IMG.src=img[i].src;
@@ -520,7 +519,7 @@
 			var css=[],w=p.width||'',h=p.height||'';
 			if(p.wrap) p.$o.wrap('<div class="'+p.pattern+'_wrap"></div>');
 			css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
-			css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
+			css.push('.'+p.__clsName+' .pic li{text-align:center;}');//缩放图片居中
 			try{oStyle.styleSheet.cssText=css.join('')}catch(e){oStyle.innerHTML=css.join('')}
 		},
 		initBaseCSS:function(id){
