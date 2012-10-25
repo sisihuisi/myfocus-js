@@ -72,6 +72,7 @@
 			index:0,//开始显示的图片序号(从0算起)[num(数字)]
 			loadingShow:true,//是否显示Loading画面[true(显示，即等待图片加载完)|false(不显示，即不等待图片加载完)]
 			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
+			autoZoom:false,//是否允许图片自动缩放居中[true|false]
 			__focusConstr__:true//程序构造参数
 		},
 		constr:function(settings){//构造函数
@@ -434,8 +435,7 @@
 					F.initCSS(p,oStyle);//css
 					$o.addClass(p.pattern+' '+p.__clsName);//+className
 					F.getIMGReady(p,function(arrSize){
-						//console.log(arrSize);
-						F.zoomIMG(p,arrSize);//缩放图片
+						if(p.autoZoom) F.zoomIMG(p,arrSize);//缩放图片
 						F.pattern[p.pattern](p,F);//运行pattern代码
 						callback&&callback();
 					});
@@ -519,7 +519,7 @@
 			var css=[],w=p.width||'',h=p.height||'';
 			if(p.wrap) p.$o.wrap('<div class="'+p.pattern+'_wrap"></div>');
 			css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
-			css.push('.'+p.__clsName+' .pic li{text-align:center;}');//缩放图片居中
+			if(p.autoZoom) css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
 			try{oStyle.styleSheet.cssText=css.join('')}catch(e){oStyle.innerHTML=css.join('')}
 		},
 		initBaseCSS:function(id){
