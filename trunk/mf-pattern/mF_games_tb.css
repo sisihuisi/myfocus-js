@@ -1,6 +1,7 @@
 /*=========mF_games_tb========*/
 .mF_games_tb_wrap{padding:8px;border:1px solid #999;float:left;background:#fff;}/*背景边框*/
-.mF_games_tb {background:#f1f1f1;}
+.mF_games_tb {background:#f1f1f1; position:relative;}
+.mF_games_tb .loading{ position:absolute; width:100%; height:100%; background:url(img/loading.gif) center no-repeat;}
 .mF_games_tb .pic{position:absolute;top:0;left:0;}
 .mF_games_tb .pic li{position:absolute;width:100%;height:100%;overflow:hidden;display:none;}
 .mF_games_tb .thumb{position:absolute;bottom:0;left:0;overflow:hidden;}

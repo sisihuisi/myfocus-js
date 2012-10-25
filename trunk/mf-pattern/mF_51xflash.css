@@ -1,5 +1,7 @@
 /*=========mF_51xflash========*/
 .mF_51xflash_wrap{padding:8px;border:1px solid #999;float:left;background:#fff;}/*背景边框*/
+.mF_51xflash{ position:relative;}
+.mF_51xflash .loading{ position:absolute; width:100%; height:100%; background:url(img/loading.gif) center no-repeat;}
 .mF_51xflash .pic{position:absolute;top:0;left:0;overflow:hidden;}
 .mF_51xflash .pic ul{position:static;}
 .mF_51xflash .pic ul li{position:absolute;right:0;}
