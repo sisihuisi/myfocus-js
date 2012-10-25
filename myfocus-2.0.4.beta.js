@@ -66,7 +66,7 @@
 			pattern:'mF_fancy',//风格样式
 			trigger:'click',//触发切换模式['click'(鼠标点击)|'mouseover'(鼠标悬停)]
 			txtHeight:'default',//文字层高度设置[num(数字,单位像素,0表示隐藏文字层,省略设置即为默认高度)]
-			wrap:true,//是否保留边框(有的话)[true|false]
+			wrap:true,//是否需要让程序添加焦点图的外围html(wrap)元素(目的是为了添加某些风格的边框)[true|false]
 			auto:true,//是否自动播放(切换)[true|false]
 			time:4,//每次停留时间[num(数字,单位秒)]
 			index:0,//开始显示的图片序号(从0算起)[num(数字)]
@@ -515,11 +515,12 @@
 			};
 		},
 		initCSS:function(p,oStyle){
-			if(!p.pic) return;
 			var css=[],w=p.width||'',h=p.height||'';
-			if(p.wrap) p.$o.wrap('<div class="'+p.pattern+'_wrap"></div>');
-			css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
-			if(p.autoZoom) css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
+			if(p.pic){
+				css.push('.'+p.__clsName+' *{margin:0;padding:0;border:0;list-style:none;}.'+p.__clsName+'{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;font:12px/1.5 Verdana;text-align:left;background:#fff;visibility:visible!important;}.'+p.__clsName+' .pic{position:relative;width:'+w+'px;height:'+h+'px;overflow:hidden;}.'+p.__clsName+' .txt li{width:'+w+'px;height:'+p.txtHeight+'px!important;overflow:hidden;}');
+				if(p.wrap) p.$o.wrap('<div class="'+p.pattern+'_wrap"></div>');
+				if(p.autoZoom) css.push('.'+p.__clsName+' .pic li{text-align:center;width:'+w+'px;height:'+h+'px;}');//缩放图片居中
+			}
 			try{oStyle.styleSheet.cssText=css.join('')}catch(e){oStyle.innerHTML=css.join('')}
 		},
 		initBaseCSS:function(id){
