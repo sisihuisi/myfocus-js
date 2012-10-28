@@ -1,11 +1,11 @@
 ﻿/*
-* myFocus JavaScript Library v2.0.3
+* myFocus JavaScript Library v2.0.4
 * Open source under the BSD & GPL License
 * 
 * Copyright 2012, Koen Lee
 * http://cosmissy.com/
 * 
-* Date: 2012/10/24
+* Date: 2012/10/28
 */
 (function(){
 	//DOM基础操作函数
@@ -73,6 +73,8 @@
 			loadingShow:true,//是否显示Loading画面[true(显示，即等待图片加载完)|false(不显示，即不等待图片加载完)]
 			delay:100,//触发切换模式中'mouseover'模式下的切换延迟[num(数字,单位毫秒)]
 			autoZoom:false,//是否允许图片自动缩放居中[true|false]
+			onChange:null,//切换图片的时候执行的自定义函数，带有一个当前图索引的参数
+			xmlFile:'',//myfocus图片的xml配置文件路径,留空即不读取xml文件
 			__focusConstr__:true//程序构造参数
 		},
 		constr:function(settings){//构造函数
@@ -350,21 +352,25 @@
 				if(seamless&&indexLast>=n&&indexCurrent<n) indexCurrent+=n;//无缝时的按钮点击(保持同一方向)
 				funcCurrentFrame&&funcCurrentFrame(indexCurrent,n,indexLast);//运行当前帧
 				this_.runIndex=indexLast=indexCurrent;//保存已运行的帧索引
+				//增加自定义回调函数@10.27
+				p.onChange&&p.onChange.call(this_,indexCurrent);
 			};
-			try{this_.run(indexCurrent)}catch(e){setTimeout(function(){this_.run(indexCurrent)},0)};//运行...
+			//运行...(try是为了兼容风格js中play比bindControl先执行)
+			try{this_.run(indexCurrent)}catch(e){setTimeout(function(){this_.run(indexCurrent)},0)};
 			if(p.auto&&n>1){//自动切换
 				this_.runTimer=setInterval(function(){this_.run('+=1')},t);//默认递增运行每帧
 				this_.bind('mouseover',function(){//绑定事件
 					clearInterval(this_.runTimer);
+					this_.runTimer='pause';//标记以防止执行两次this_.runTimer
 				}).bind('mouseout',function(){
-					if(!this_.isStop) this_.runTimer=setInterval(function(){this_.run('+=1')},t);
+					if(!this_.isStop&&this_.runTimer==='pause') this_.runTimer=setInterval(function(){this_.run('+=1')},t);
 				});
 			}
 			this_.find('a').each(function(){//去除IE链接虚线
 				this.onfocus=function(){this.blur();}
 			});
 		},
-		bindControl:function($btnList,params){//params={thumbShowNum:'略缩图显示数目(如果有)',isRunning:'运行中的标记(当需要判断时)'}
+		bindControl:function($btnList,params){//params={thumbShowNum(略缩图显示数目(如果有)):num,isRunning(运行中的标记(当需要判断时)):boolean}
 			var this_=this,p=this_.settings,type=p.trigger,delay=p.delay,par=params||{},tsNum=par.thumbShowNum||p.thumbShowNum;
 			var run=function(){
 				if(this.index!==this_.runIndex&&!par.isRunning){
@@ -430,6 +436,8 @@
 				F.getBoxReady(p,function(){
 					var $o=F($id(id));
 					p.$o=$o;//保存node
+					//xml load
+					p.xmlFile&&F.loadXML(p);
 					p.pic=$class('pic',$o[0])[0];//保存node for是否标准风格的判断及是否需要initcss
 					p.width=p.width||$o.css('width'),p.height=p.height||$o.css('height');//获得box高/宽
 					F.initCSS(p,oStyle);//css
@@ -489,13 +497,14 @@
 		getIMGReady:function(p,callback){
 			var isShow=p.loadingShow;
 			var box=$id(p.id),img=$tag('img',p.pic),len=img.length,
-				count=0,done=false,arrSize=[];
+				count=0,done=false,arrSize=new Array(len);
 			if(!isShow||!len){callback();return;}//无延迟
 			for(var i=0;i<len;i++){
 				var IMG=new Image();
+				IMG.i=i;//标记前后顺序
 				IMG.onload=function(){
 					count+=1;
-					arrSize.push({w:IMG.width,h:IMG.height});//储存for zoomIMG
+					arrSize[this.i]={w:this.width,h:this.height};//储存for zoomIMG
 					if(count==len&&!done){done=true,callback(arrSize);}
 				};
 				IMG.src=img[i].src;
@@ -504,14 +513,16 @@
 		zoomIMG:function(p,arrSize){
 			var imgs=$tag('img',p.pic),len=imgs.length,boxWidth=p.width,boxHeight=p.height;
 			for(var i=0;i<len;i++){
-				var w=arrSize[i].w, h=arrSize[i].h;
-				if(w == boxWidth && h == boxHeight) return;
-				if(w / h >= boxWidth / boxHeight){
-					imgs[i].style.width=boxWidth+'px';
-					imgs[i].style.marginTop=(boxHeight-boxWidth/w*h)/2+'px';//垂直居中
+				var w=arrSize[i].w,h=arrSize[i].h;
+				if(w == boxWidth && h == boxHeight) continue;
+				if(w < boxWidth && h < boxHeight){
+					var width=w,height=h,top=(boxHeight-height)/2;
+				}else if(w / h >= boxWidth / boxHeight){
+					var width=boxWidth,height=boxWidth/w*h,top=(boxHeight-height)/2;
 				}else{
-					imgs[i].style.height=boxHeight+'px';
+					var width=boxHeight/h*w,height=boxHeight,top=0;
 				}
+				imgs[i].style.cssText=';width:'+width+'px;height:'+height+'px;margin-top:'+top+'px;';
 			};
 		},
 		initCSS:function(p,oStyle){
@@ -533,7 +544,7 @@
 		}
 	});
 	myFocus.extend({//Method(myFocus)
-		isIE:!!(document.all&&navigator.userAgent.indexOf('Opera')===-1),//!(+[1,]) BUG IN IE9+?
+		isIE:!!(document.all&&navigator.userAgent.indexOf('Opera')===-1),//!(+[1,]) BUG IN IE9+
 		addEvent:function(o,type,fn){
 			var ie=this.isIE,e=ie?'attachEvent':'addEventListener',t=(ie?'on':'')+type;
 			o[e](t,function(e){
@@ -543,6 +554,21 @@
 					else e.stopPropagation(),e.preventDefault();
 				}
 			},false);
+		},
+		loadXML:function(p){
+			var xmlhttp = window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLDOM");
+			xmlhttp.open("GET", p.xmlFile + "?" + Math.random(), false);
+			xmlhttp.send(null);
+			this.appendXML(xmlhttp.responseXML,p);
+		},
+		appendXML:function(xml,p){
+			var items=xml.documentElement.getElementsByTagName("item"),len=items.length;
+			var html=['<div class="loading"></div><div class="pic"><ul>'];
+			for(var i=0;i<len;i++){
+				html.push('<li><a href="'+items[i].getAttribute('href')+'"><img src="'+items[i].getAttribute('image')+'" thumb="'+items[i].getAttribute('thumb')+'" alt="'+items[i].getAttribute('title')+'" text="'+items[i].getAttribute('text')+'" /></a></li>');
+			}
+			html.push('</ul></div>');
+			p.$o[0].innerHTML=html.join('');
 		}
 	});
 	//支持JQ
