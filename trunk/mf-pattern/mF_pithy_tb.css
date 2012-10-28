@@ -1,7 +1,7 @@
 /*=========mF_pithy_tb========*/
 .mF_pithy_tb_wrap{padding:8px;border:1px solid #999;float:left;background:#fff;}/*背景边框*/
 .mF_pithy_tb{ position:relative;}
-.mF_pithy_tb .loading{ position:absolute; width:100%; height:100%; background:url(img/loading.gif) center no-repeat;}
+.mF_pithy_tb .loading{ position:absolute; width:100%; height:100%; background:#fff url(img/loading.gif) center no-repeat; z-index:9;}
 .mF_pithy_tb .pic{position:absolute;top:0;left:0;}
 .mF_pithy_tb .pic ul{ position:absolute;}
 .mF_pithy_tb .pic ul li{width:100%;overflow:hidden;}

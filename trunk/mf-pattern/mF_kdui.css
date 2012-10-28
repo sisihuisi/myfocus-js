@@ -1,6 +1,6 @@
 /*=========mF_kdui ========*/
 .mF_kdui{ background:#000; position:relative;}
-.mF_kdui .loading{ position:absolute; width:100%; height:100%; background:url(img/loading.gif) center no-repeat;}
+.mF_kdui .loading{ position:absolute; width:100%; height:100%; background:#fff url(img/loading.gif) center no-repeat; z-index:9;}
 .mF_kdui .pic{position:absolute;z-index:1;width:100%;height:100%; overflow:hidden;}
 .mF_kdui .pic li{ position:absolute; top:0; display:none;}
 .mF_kdui .txt{position:absolute;z-index:2; top:12px;left:12px; width:200px;}/*默认标题高度*/
