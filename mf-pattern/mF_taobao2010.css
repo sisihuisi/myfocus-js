@@ -1,6 +1,6 @@
 /*=========mF_taobao2010========*/
 .mF_taobao2010{ position:relative;}
-.mF_taobao2010 .loading{ position:absolute; width:100%; height:100%; background:url(img/loading.gif) center no-repeat;}
+.mF_taobao2010 .loading{ position:absolute; width:100%; height:100%; background:#fff url(img/loading.gif) center no-repeat; z-index:9;}
 .mF_taobao2010 .pic ul{position:absolute;}
 .mF_taobao2010 .pic ul li{position:relative;overflow:hidden;}
 .mF_taobao2010 .pic ul.left li{float:left;}
